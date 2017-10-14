@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+ 	<context:annotation-config></context:annotation-config>
+    <context:component-scan base-package="cn.whsw.lib.*"></context:component-scan>
+    <!-- spring 的定时任务 -->
+    <task:annotation-driven scheduler="excelScheduler" mode="proxy"/>
+    <task:scheduler id="excelScheduler" pool-size="10"/>
+
+	<!-- c3p0 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/mydb"></property>
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="user" value="root"></property>
+		<property name="password" value="root"></property>
+		<property name="checkoutTimeout" value="30000"></property>
+		<property name="idleConnectionTestPeriod" value="30"></property>
+		<property name="initialPoolSize" value="50"></property>
+		<property name="maxIdleTime" value="30"></property>
+		<property name="maxPoolSize" value="500"></property>
+		<property name="minPoolSize" value="50"></property>
+		<property name="maxStatements" value="1000"></property>
+	</bean>
+	    
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 事物 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<constructor-arg name="dataSource" ref="dataSource"></constructor-arg>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>

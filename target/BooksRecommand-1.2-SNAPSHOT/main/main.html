@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>武汉生物工程学院图书推荐</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta name="theme-color" content="#000000">
+		<meta name="Keywords" content="图书推荐,豆瓣推荐,图书馆,武生院" />
+		<!--src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"-->
+		<link rel="icon" href="../img/favicon.ico" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.css" />
+		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.theme.min.css" />
+		<script src="../js/jquery-3.2.1.min.js"></script>
+		<script src="../js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/bootstrap.js"></script>
+
+	</head>
+	<style type="text/css">
+		* {
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		#brand {
+			font-family: "微软雅黑";
+			font-size: x-large;
+		}
+		
+		li~li {
+			margin-left: 60px;
+		}
+		
+		#brand,
+		#main {
+			padding-left: 20px;
+		}
+		
+		#douban {
+			margin-top: 51px;
+			margin-left: 320px;
+		}
+		
+		#myframe {
+			text-align: center;
+		}
+	</style>
+
+	<body>
+		<nav id="mynav" class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<span id="brand" class="navbar-brand ">武生院图书推荐</span>
+				</div>
+				<div id="navbar" class="navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li id="main" class="active">
+							<a href="">首页</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" onclick="about()">关于</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" onclick="caina()">采纳书单</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" onclick="clickFeedback()">意见反馈</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" onclick="dashang()">打赏</a>
+						</li>
+						<li class="active">
+							<a href="javascript:void(0);" onclick="add()">推荐到图书馆</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</nav>
+		<section id="douban">
+			<!--<div>
+				<iframe id="myframe" seamless="seamless" security="restricted" sandbox="allow-forms" src="https://book.douban.com/" scrolling="no" frameborder="0" onload="changeFrameHeight()" width="1000px" height="3000px"></iframe>
+			</div>-->
+			<div>
+				<div class="container-fluid">
+
+					<div class="col-md-9">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<form class="input-group">
+									<input class="form-control" type="text" value="丫" id="bookName" placeholder="请输入书名" required="required" />
+									<span class="input-group-btn">
+                  <button class="btn" id="search">搜索</button>
+                </span>
+								</form>
+							</div>
+							<div class="panel-body">
+								<table class="table table-bordered">
+									<thead>
+										<th class="col-md-4">书名</th>
+										<th>作者</th>
+										<th>出版日期</th>
+										<th>平均分</th>
+										<th>价格</th>
+									</thead>
+									<tbody id="tbody">
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-7">
+								<div id="test"></div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="input-group m20">
+									<!-- 保持与#test中的.pagination对齐 -->
+									<input type="text" class="form-control" id="page" />
+									<span class="input-group-btn">
+                <button class="btn btn-default" id="jumpToPage">GO</button>
+              </span>
+								</div>
+							</div>
+						</div>
+
+						<div id="result" class="alert alert-info">
+							
+						</div>
+					</div>
+				</div>
+	</body>
+	</div> 
+
+    
+	</section>
+	<footer>
+		<div class="container">
+			<div style="font-size:20px;background-color: #00000;" align="center">觉得有用记得推荐给身边的同学哦！</div>
+			<div style="padding-top: 10px" align="center">
+				(c) Copyright 2017 DGW-PC. All Rights Reserved.
+				<p align="center">备案号：
+					<a href="http://www.miibeian.gov.cn/" target="_blank">鄂ICP备09018573号</a>
+				</p>
+				<p> 友情链接:
+					<a href="http://glyphicons.com/" target="_blank">glyphicon</a>
+				</p>
+			</div>
+		</div>
+	</footer>
+
+	<!-- recommend dialog 1 -->
+	<div id="redialog" class="" title="推送到图书馆">
+		<p class="validateTips">所有的表单字段都是必填的。</p>
+		<form action="#">
+			<fieldset>
+				<label for="bookname">书名</label>
+				<input type="text" name="bookname" id="booknames" class="text ui-corner-all ui-widget-content">
+				<label for="author">作者</label>
+				<input type="text" name="author" id="authors" value="" class="text ui-widget-content ui-corner-all">
+				<label for="datepicker">出版日期</label>
+				<input type="text" name="pubdate" id="datepicker" value="" class="text ui-widget-content ui-corner-all">
+				<label for="average">评分</label>
+				<input type="text" name="average" id="averages" value="" class="text ui-widget-content ui-corner-all">
+				<label for="price">价格</label>
+				<input type="text" name="price" id="prices" value="" class="text ui-widget-content ui-corner-all">
+			</fieldset>
+		</form>
+	</div>
+
+	<!-- recommend dialog 2  -->
+	<div id="recommend" class="modal fade">
+		<div class="modal-content modal-dialog" style="margin: 0 auto">
+			<div class="modal-header">
+				<span> 推送到图书馆 </span>
+				<button class="close">x</button>
+			</div>
+			<div class="modal-body">
+				<table class="table table-bordered">
+					<thead>
+						<th class="col-md-4">书名</th>
+						<th>作者</th>
+						<th>出版日期</th>
+						<th>平均分</th>
+						<th>价格</th>
+					</thead>
+					<tbody id="recommendbody">
+						<tr id="recommendtr">
+							<td id="recommendtd"></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+
+			</div>
+		</div>
+		
+	</div>
+	<!-- alipay dialog -->
+	<div id="alipay" class="modal fade">
+		<div class="modal-content modal-dialog">
+			<div class="modal-header">
+				<span>打赏</span>
+				<div data-dismiss="modal" class="close">x</div>
+			</div>
+			<div class="modal-body modal-lg">
+				<img width="550" height="800" src="../img/alipay.jpg" />
+			</div>
+		</div>
+	</div>
+	<!-- question dialog-->
+	<div id="question" class="modal fade" tabindex="-1">
+		<div class="modal-content modal-dialog">
+			<div class="modal-header">
+				<span>意见反馈</span>
+				<button class="close" data-dismiss="modal">x</button>
+			</div>
+			<div class="modal-body">
+				<textarea cols="" class="form-control" rows="6">提交bug及疑问</textarea>
+				<a target="frame1" href="https://peakwei.github.io/Main-Pages/"><button type="button" class="btn btn-link">（链接）my github</button></a>
+				<button style="margin-left: 500px; " class="btn btn-success" type="button">提交</button>
+			</div>
+		</div>
+
+	</div>
+	<!-- about dialog-->
+	<div id="dialogabout" class="modal fade" tabindex="-1">
+		<div class="modal-content modal-dialog modal-lg">
+			<div class="modal-header" style="font-size:x-large;">关于
+				<button class="close" data-dismiss="modal">x</button>
+			</div>
+			<div class="modal-body">
+				<span style="font-size: medium;margin-left: 150px;">
+		 				  本软件系统是汇聚同学们对于喜欢的图书推荐到图书馆,快把你喜欢的图书推荐上来吧<br/>    
+		 			</span><br />
+
+				<span class="glyphicon glyphicon-comment" style="margin-left: 300px;">
+				 		武汉生物工程学院图书馆版权所有       027-89649861
+				 	 </span><br />
+				<span class="glyphicon glyphicon-envelope" style="margin-left: 300px;">
+		 				  答疑邮箱:wsytsg2004@163.com
+		 			 </span>
+
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" color="25,0,255" opacity='0.8' zIndex="-1" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+	</body>
+
+	<script type="text/javascript">
+		function about() {
+			$("#dialogabout").modal("show");
+		}
+
+		function clickFeedback() {
+			$("#question").modal("show");
+		}
+		function caina(){
+			window.location.href="adoptionview.html";
+		}
+		function dashang() {
+			$("#alipay").modal("show");
+		}
+		/* 提交的books 数据  */
+		function getBooks() {
+			var d = {};
+			var array = $("form").serializeArray();
+			$.each(array, function() {
+				d[this.name] = this.value;
+			});
+			//alert(JSON.stringify(d));
+			console.log(JSON.stringify(d));
+			var sentData = {
+				"name": "xxx",
+				"password": "我不好"
+			};
+			$.ajax({
+				url: "rcommAction.action",
+				data: d,
+				type: 'post',
+				dataType: 'text',
+				cache: false,
+				async: false,
+				success: function(data) {
+					$("form").reset();
+				},
+				error: function(xhr) {
+					//中间发生异常，查看xhr.responseText
+					window.location.reload();
+				}
+			});
+			$("#redialog").dialog("destroy");
+			
+		};
+
+		function myevent() {
+			//$("#recommend").modal("toggle");
+			$("#redialog").dialog({
+				resizable: true,
+				height: "400",
+				width: "200",
+				modal: false,
+				buttons: {
+					"提交": getBooks,
+					"取消": function() {
+						$("#redialog").dialog("destroy");
+					}
+				}
+			});
+		}
+		$(function() {
+			$("#redialog").hide();
+			$("#datepicker").datepicker();
+		});
+		$(function() {
+
+		});
+	</script>
+	<!--        -->
+	<script type="text/javascript">
+		$(function() {
+			/*	
+			$("td > a").on("click",function(){
+					console.log("页面内容更新");
+				})*/
+			$("#tbody").delegate("a", "mousemove", function() {
+				//alert("xxxxxxxxxxxxxxx");
+				//$(this).delay(2000).alert("xxxx");
+				//$(this).popover("toggle");
+				//setTimeout(function(){},"2000");
+				$(this).tooltip();
+			});
+			/*$("#tbody").delegate("tr","change",function(){
+				$(this)
+			});*/
+
+		});
+		var partPageModule = (function($) {
+			var
+				initPager = null, // 初始换分页函数
+				setPagerHTML = null, // 生成分的页HTML代码
+				pageClick = null, //　每一页按钮的点击事件
+				ajax = null, // ajax请求后台数据
+				renderButton = null,
+				$content = $('') // 动态生成的页码
+			;
+
+			/* 功能：完成初始化
+			 * @totalPages 总页数，从后端获取
+			 * @currentPage 当前所在的页数
+			 */
+			initPager = function(totalPages, currentPage) {
+				$content = setPagerHTML({
+					currentPage: currentPage,
+					totalPages: totalPages,
+					pageClick: PageClick
+				})
+				$('#test').empty().append($content); // 得到分页后添加到#test
+				$('#jumpToPage').click(function(e) { // 绑定GO按钮的点击事件
+					e.preventDefault();
+					PageClick(totalPages, $('#page').val() * 1);
+				})
+				$('#page').keyup(function(e) { // Enter键绑定搜索事件
+					if(e.keyCode === 13) {
+						$('#jumpToPage').trigger('click');
+					}
+				})
+				$('#result').html('你点击的是第' + currentPage + '页')
+			};
+
+			/* 功能：页码点击事件。重新生成所有页码，并且使用ajax获取数据
+			 */
+			PageClick = function(totalPages, currentPage) {
+				initPager(totalPages, currentPage);
+				ajax(currentPage); // 使用jsonp请求豆瓣
+			}
+
+			ajax = function(currentPage) {
+				var
+					$input = $('#bookName'),
+					bookName = '',
+					$tbody = $('#tbody')
+				//        totalPages
+				;
+
+				bookName = $input.val();
+
+				if(!bookName) { // 如果没有输入，就不要发送请求了
+					$input.focus();
+					return;
+				} else {
+					$.ajax({
+						type: 'get',
+						url: 'https://api.douban.com/v2/book/search', // 豆瓣图书api
+						dataType: 'jsonp',
+						data: {
+							q: bookName,
+							start: (parseInt(currentPage) - 1) * 20 || 0
+						},
+						success: function(data) {
+							var
+								html = '',
+								books = data.books;
+
+							//            totalPages = Math.ceil( data.total / data.count );
+							var x = 0;
+							books.forEach(function(value, index) {
+								html += '<tr id="id' + x++ + ' " >' +
+									'<td><a    onblur="myevent()" target="_blank"  title="推荐到图书馆"  href="' + value.alt + '">' + value.title + '</a></td>' +
+									'<td>' + value.author + '</td>' +
+									'<td>' + value.pubdate + '</td>' +
+									'<td>' + value.rating.average + '</td>' +
+									'<td>' + value.price + '</td>' +
+									'</tr>';
+							})
+
+							$tbody.html(html);
+						}
+					})
+				}
+
+				//      return totalPages;
+			}
+
+			setPagerHTML = function(options) {
+				var
+					currentPage = options.currentPage,
+					totalPages = options.totalPages,
+					pageClick = options.pageClick,
+					$content = $('<ul class="pagination"></ul>'),
+					startPage = 1,
+					nextPage = currentPage + 1, //不需要考虑超出问题，后面有条件
+					prevPage = currentPage - 1;
+
+				/* 逻辑处理，根据点击的不同的页生成不同的ul */
+				if(currentPage == startPage) { //当前页是起始页
+					$content.append('<li><span>首页</span></li>'); // 首页不可用
+					$content.append('<li><span>上一页</span></li>'); // 上一页不可用
+				} else { // 不是起始页
+					$content.append(renderButton(totalPages, 1, pageClick, '首页')); // 生成首页并绑定事件
+					$content.append(renderButton(totalPages, prevPage, pageClick, '上一页')); // 生成上一页并绑定事件
+				}
+
+				if(totalPages <= 5 && currentPage <= 5) { // 总页数小于5，当前页小于5，全部生成页码
+					for(var i = 1; i <= totalPages; i++) {
+						if(i === currentPage) {
+							$content.append('<li class="active><span>' + i + '</span></li>'); // 当前页不可点击
+						} else {
+							$content.append(renderButton(totalPages, i, pageClick, i)); // 其他页可以点击
+						}
+					}
+				} else if(totalPages > 5 && totalPages - currentPage <= 2) { // 总页数大于5，当前页接近总页数，前面显示...,后面显示到结尾的页码
+					$content.append('<li><span>...</span></li>');
+					for(var i = totalPages - 4; i <= totalPages; i++) {
+						if(i === currentPage) {
+							$content.append('<li class="active"><span>' + i + '</span></li>');
+						} else {
+							$content.append(renderButton(totalPages, i, pageClick, i));
+						}
+					}
+				} else if(totalPages > 5 && currentPage > 3) { // 总页数大于5，当前页在中间，前后生成...，生成中间页码
+					$content.append('<li><span>...</span></li>');
+					for(var i = currentPage - 2; i < currentPage + 2; i++) {
+						if(i === currentPage) {
+							$content.append('<li class="active"><span>' + i + '</span></li>');
+						} else {
+							$content.append(renderButton(totalPages, i, pageClick, i));
+						}
+					}
+					$content.append('<li><span>...</span></li>');
+				} else if(totalPages > 5 && currentPage <= 3) { // 总页数大于5，当前页接近第一页，显示前面页码，后面显示...
+					for(var i = 1; i <= 5; i++) {
+						if(i === currentPage) {
+							$content.append('<li class="active"><span>' + i + '</span></li>');
+						} else {
+							$content.append(renderButton(totalPages, i, pageClick, i));
+						}
+					}
+					$content.append('<li><span>...</span></li>');
+				}
+
+				if(currentPage == totalPages) { //当前页是末页
+					$content.append('<li><span>下一页</span></li>'); // 下一页不可用
+					$content.append('<li><span>末页</span></li>'); // 末页不可用
+				} else { // 不是起始页
+					$content.append(renderButton(totalPages, nextPage, pageClick, '下一页')); // 生成首页并绑定事件
+					$content.append(renderButton(totalPages, totalPages, pageClick, '末页')); // 生成上一页并绑定事件
+				}
+
+				return $content;
+			}
+
+			renderButton = function(totalPages, goPageIndex, eventHander, text) {
+				var $gotoPage = $('<li><a title="第' + goPageIndex + '页">' + text + '</a></li>');
+				$gotoPage.click(function() {
+					eventHander(totalPages, goPageIndex);
+				})
+
+				return $gotoPage;
+			}
+
+			return {
+				init: initPager,
+				ajax: ajax
+			}　
+		}(jQuery))
+
+		$(function() {
+
+			$('#search').click(function(e) {
+				e.preventDefault();
+				var totalPage = partPageModule.ajax(1); // 由于ajax是异步的，
+				totalPage = totalPage || 65; // 所以这个总页数是不准确的。一般这个数据是后端返回的。这里的65是javascript搜索的页数，不同的书籍搜索结果不一样，由于ajax异步执行，所以这里会默认为65。这里不是bug。
+				partPageModule.init(totalPage, 1);
+			})
+
+			$('#bookName').keyup(function(e) {
+				if(e.keyCode === 13) {
+					$('#search').trigger('click');
+				}
+			})
+
+			$('#search').trigger('click');
+		})
+	</script>
+
+</html>

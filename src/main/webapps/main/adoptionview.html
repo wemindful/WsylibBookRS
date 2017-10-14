@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<title>已经采纳的反馈</title>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.css" />
+		<script src="../js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<header style="background-color: #00AAEE;">
+			<div  style="text-align: center;">
+				<h2>已经被图书馆受理的图书列表(15天更新一次)</h2>
+			</div>
+		</header>
+		<div class="container">
+
+			<div class="panel-body">
+				<table class="table table-bordered">
+					<thead>
+						<th class="col-md-4">书名(排名由高到低)</th>
+						<th>作者</th>
+						<th>出版日期</th>
+						<th>平均分</th>
+						<th>价格</th>
+					</thead>
+					<tbody id="tbody">
+
+					</tbody>
+				</table>
+			</div>
+			<div class="field">
+				<button id="daterefresh" style="float: right;" type="button" class="btn btn-info">刷新数据</button>
+			</div>
+
+		</div>
+
+		<script type="text/javascript">
+			$("#daterefresh").click(function() {
+				window.location.reload();
+			});
+			/*
+			 * 下载表格没有完成
+			 */
+			$("#download").click(function() {
+				//alert("功能还在完善");
+				window.location.href = "/BooksRecommand/download.action";
+			});
+			$(function() {
+
+				var data = {
+					"book": [{
+						"average": "7.2",
+						"author": "林政",
+						"price": "24.0",
+						"attention": 5,
+						"bid": 8,
+						"bookname": "女奴之盟城风云",
+						"datepicker": "08/28/2017"
+					}, {
+						"average": "9.0",
+						"author": "美] Bruce Eckel",
+						"price": "\t95.00元",
+						"attention": 4,
+						"bid": 2,
+						"bookname": "Java编程思想",
+						"datepicker": "2005-9"
+					}, {
+						"average": "0.0",
+						"author": "法瑞尔",
+						"price": "99.00元",
+						"attention": 2,
+						"bid": 1,
+						"bookname": "JAVA编程",
+						"datepicker": "2012-1"
+					}, {
+						"average": "0.3",
+						"author": "代购网",
+						"price": "59",
+						"attention": 2,
+						"bid": 3,
+						"bookname": "武生院",
+						"datepicker": "2018-2"
+					}, {
+						"average": "0.0",
+						"author": "丫 丫,老笋",
+						"price": "6.00",
+						"attention": 2,
+						"bid": 5,
+						"bookname": "精美甜品/新派菜谱系列",
+						"datepicker": "08/08/2017"
+					}, {
+						"average": "7.5",
+						"author": "赵赵",
+						"price": "36.00元",
+						"attention": 2,
+						"bid": 6,
+						"bookname": "丫头儿",
+						"datepicker": "08/16/2017"
+					}]
+				}
+				var html1 = '';
+				var i = 0;
+				$.ajax({
+					type: "post",
+					url: "findReplayAction.action",
+					async: false,
+					data: {},
+					dataType: "json",
+					success: function(result) {
+						var result = JSON.parse(result);
+						$.each(result.book, function() {
+							console.log("sss");
+							html1 += '<tr>' +
+								'<td>' + result.book[i].bookname + '</td>' +
+								'<td>' + result.book[i].author + '</td>' +
+								'<td>' + result.book[i].datepicker + '</td>' +
+								'<td>' + result.book[i].average + '</td>' +
+								'<td>' + result.book[i].price + '</td>' +
+								'</tr>';
+							++i;
+						});
+					},
+					error: function(errMesg) {
+						alert("请求失败");
+					}
+				});
+				$("#tbody").html(html1);
+			});
+
+			/*
+			 * 	'<td>' + value.author + '</td>' +
+									'<td>' + value.pubdate + '</td>' +
+									'<td>' + value.rating.average + '</td>' +
+									'<td>' + value.price + '</td>' +
+			 */
+		</script>
+
+	</body>
+
+</html>
